@@ -9,7 +9,7 @@ cd "$ROOT"
 
 WRANGLER_BIN=${WRANGLER:-npx wrangler}
 PAGES_PROJECT=${PAGES_PROJECT:-autoblog-pages}
-export WRANGLER_LOG="${WRANGLER_LOG:-./.wrangler.log}"
+export WRANGLER_LOG="${WRANGLER_LOG:-none}"
 
 echo "Installing dependencies..."
 npm install
@@ -28,8 +28,8 @@ echo "Deploying Pages project $PAGES_PROJECT..."
 $WRANGLER_BIN pages deploy dist --project-name "$PAGES_PROJECT" --branch main
 
 echo "(Optional) Kick off initial content jobs..."
-if $WRANGLER_BIN queues list 2>/dev/null | grep -q "content-queue"; then
-  $WRANGLER_BIN queues send content-queue '{"market":"jhb"}' || true
+if $WRANGLER_BIN queues list 2>/dev/null | grep -q "content-queue-prod"; then
+  $WRANGLER_BIN queues send content-queue-prod '{"market":"jhb"}' || true
 fi
 
 cat <<'EOF'

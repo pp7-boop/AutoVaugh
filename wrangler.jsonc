@@ -41,19 +41,19 @@
     "producers": [
       {
         "binding": "CONTENT_QUEUE",
-        "queue": "content-queue"
+        "queue": "content-queue-prod"
       },
       {
         "binding": "IMAGE_QUEUE",
-        "queue": "image-queue"
+        "queue": "image-queue-prod"
       }
     ],
     "consumers": [
       {
-        "queue": "content-queue"
+        "queue": "content-queue-prod"
       },
       {
-        "queue": "image-queue"
+        "queue": "image-queue-prod"
       }
     ]
   },
@@ -67,9 +67,9 @@
     "cwd": "."
   },
   "routes": [
-    { "pattern": "api.vaughnsterling.com/*", "custom_domain": true },
-    { "pattern": "api.vaughnsterlingtours.com/*", "custom_domain": true },
-    { "pattern": "api.swankyboyz.com/*", "custom_domain": true }
+    { "pattern": "api.vaughnsterling.com", "custom_domain": true },
+    { "pattern": "api.vaughnsterlingtours.com", "custom_domain": true },
+    { "pattern": "api.swankyboyz.com", "custom_domain": true }
   ],
   "env": {
     "production": {
