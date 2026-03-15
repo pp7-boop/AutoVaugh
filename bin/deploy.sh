@@ -54,6 +54,20 @@ $WRANGLER_BIN --config wrangler.json deploy --no-bundle --env ""
 popd > /dev/null
 
 echo "Deploying Pages project $PAGES_PROJECT..."
+cat > dist/client/index.html <<'HTML'
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AutoBlog</title>
+</head>
+<body>
+  <h1>AutoBlog</h1>
+  <p>The site is deployed. API backend is at <a href="https://autoblog.ubani-hosting.workers.dev/">autoblog.ubani-hosting.workers.dev</a>.</p>
+</body>
+</html>
+HTML
 pushd dist/client > /dev/null
 $WRANGLER_BIN pages deploy . --project-name "$PAGES_PROJECT" --branch main
 popd > /dev/null

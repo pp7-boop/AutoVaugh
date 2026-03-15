@@ -34,16 +34,22 @@ router.post("/admin/job", authAdmin, async (req, env: Env) => {
   return json(await createManualJob(env, body as any));
 });
 
-router.get("/", () => new Response(JSON.stringify({ status: "ok", message: "autoblog root" }), {
-  status: 200,
-  headers: { "Content-Type": "application/json" },
-}));
-router.head("/", () => new Response(null, { status: 200 }));
+router.all("/", (req) => {
+  if (req.method === "HEAD") {
+    return new Response(null, { status: 200 });
+  }
+  return new Response(JSON.stringify({ status: "ok", message: "autoblog root" }), {
+    status: 200,
+    headers: { "Content-Type": "application/json" },
+  });
+});
 
-router.get("/favicon.ico", () => new Response(null, { status: 204 }));
-router.head("/favicon.ico", () => new Response(null, { status: 204 }));
+router.all("/favicon.ico", (req) => new Response(null, { status: 204 }));
 
-router.get("/health", async (req, env: Env) => {
+router.all("/health", async (req, env: Env) => {
+  if (req.method === "HEAD") {
+    return new Response(null, { status: 200 });
+  }
   try {
     await env.CACHE.get("health-check", { type: "text" });
   } catch (err) {
@@ -59,6 +65,7 @@ router.get("/health", async (req, env: Env) => {
     headers: { "Content-Type": "application/json" },
   });
 });
+
 router.head("/health", () => new Response(null, { status: 200 }));
 
 router.all("*", () => new Response(JSON.stringify({ status: "not_found", error: "route_not_found" }), { status: 404, headers: { "Content-Type": "application/json" } }));

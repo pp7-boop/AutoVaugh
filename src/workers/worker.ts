@@ -11,7 +11,23 @@ export default {
       const rateLimitResponse = await rateLimit(request as any, env);
       if (rateLimitResponse instanceof Response) return rateLimitResponse;
 
-      return await apiWorker.fetch(request, env, ctx);
+      const targetRequest = request.method === "HEAD"
+        ? new Request(request, { method: "GET" })
+        : request;
+
+      const apiResponse = await apiWorker.fetch(targetRequest, env, ctx);
+
+      if (request.method === "HEAD") {
+        const headers = new Headers(apiResponse.headers);
+        headers.delete("content-length");
+        return new Response(null, {
+          status: apiResponse.status,
+          statusText: apiResponse.statusText,
+          headers,
+        });
+      }
+
+      return apiResponse;
     } catch (err) {
       console.error("Worker fetch error", err);
       return new Response(JSON.stringify({ error: String(err) }), {
