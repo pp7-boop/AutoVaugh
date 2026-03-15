@@ -46,13 +46,17 @@ echo "Building Astro site..."
 npm run build
 
 echo "Seeding D1 schema..."
-$WRANGLER_BIN --config "$TMP_WRANGLER" d1 execute autoblog_db --file src/db/schema.sql
+$WRANGLER_BIN --config "$TMP_WRANGLER" d1 execute autoblog_db --remote --file src/db/schema.sql
 
 echo "Deploying Workers + queues..."
-$WRANGLER_BIN --config "$TMP_WRANGLER" deploy --minify
+pushd dist/server > /dev/null
+$WRANGLER_BIN --config wrangler.json deploy --no-bundle --env ""
+popd > /dev/null
 
 echo "Deploying Pages project $PAGES_PROJECT..."
-$WRANGLER_BIN --config "$TMP_WRANGLER" pages deploy dist --project-name "$PAGES_PROJECT"
+pushd dist/client > /dev/null
+$WRANGLER_BIN pages deploy . --project-name "$PAGES_PROJECT" --branch main
+popd > /dev/null
 
 echo "(Optional) Kick off initial content jobs..."
 if $WRANGLER_BIN --config "$TMP_WRANGLER" queues list 2>/dev/null | grep -q "content-queue"; then

@@ -22,7 +22,7 @@
       "id": "37784a09e6e04fec8dc91ca3294e6bae"
     },
     {
-      "binding": "CONFIG_KV",
+      "binding": "SESSION",
       "id": "37784a09e6e04fec8dc91ca3294e6bae"
     }
   ],
@@ -61,20 +61,7 @@
     "command": "npm run build",
     "cwd": "."
   },
-  "routes": [
-    {
-      "pattern": "api.vaughnsterling.com/*",
-      "custom_domain": true
-    },
-    {
-      "pattern": "api.vaughnsterlingtours.com/*",
-      "custom_domain": true
-    },
-    {
-      "pattern": "api.swankyboyz.com/*",
-      "custom_domain": true
-    }
-  ],
+  "routes": [],
   "env": {
     "production": {
       "vars": {
