@@ -1,13 +1,10 @@
 import { Router } from "itty-router";
-import { rateLimit } from "../lib/rate-limit";
 import { analyzeDomain, validateKeys, provision } from "../lib/installer";
 import { getArticle, listArticles, createManualJob } from "../lib/content";
 import { authAdmin } from "../lib/auth";
 import { Env } from "../types";
 
 const router = Router();
-
-router.all("*", (req, env: Env, ctx) => rateLimit(req, env) ?? undefined);
 
 router.post("/analyze-domain", async (req, env: Env) => {
   const body = (await req.json?.()) ?? {};
@@ -37,7 +34,34 @@ router.post("/admin/job", authAdmin, async (req, env: Env) => {
   return json(await createManualJob(env, body as any));
 });
 
-router.get("/health", () => new Response("ok"));
+router.get("/", () => new Response(JSON.stringify({ status: "ok", message: "autoblog root" }), {
+  status: 200,
+  headers: { "Content-Type": "application/json" },
+}));
+router.head("/", () => new Response(null, { status: 200 }));
+
+router.get("/favicon.ico", () => new Response(null, { status: 204 }));
+router.head("/favicon.ico", () => new Response(null, { status: 204 }));
+
+router.get("/health", async (req, env: Env) => {
+  try {
+    await env.CACHE.get("health-check", { type: "text" });
+  } catch (err) {
+    console.error("Health check error", err);
+    return new Response(JSON.stringify({ status: "unavailable", error: String(err) }), {
+      status: 503,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  return new Response(JSON.stringify({ status: "ok" }), {
+    status: 200,
+    headers: { "Content-Type": "application/json" },
+  });
+});
+router.head("/health", () => new Response(null, { status: 200 }));
+
+router.all("*", () => new Response(JSON.stringify({ status: "not_found", error: "route_not_found" }), { status: 404, headers: { "Content-Type": "application/json" } }));
 
 export default { fetch: router.handle };
 

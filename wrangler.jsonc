@@ -66,6 +66,49 @@
     "production": {
       "vars": {
         "ENVIRONMENT": "prod"
+      },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "autoblog_db",
+          "database_id": "00d4816c-0146-45dc-a822-c227b272afe7"
+        }
+      ],
+      "kv_namespaces": [
+        {
+          "binding": "CACHE",
+          "id": "37784a09e6e04fec8dc91ca3294e6bae"
+        },
+        {
+          "binding": "SESSION",
+          "id": "37784a09e6e04fec8dc91ca3294e6bae"
+        }
+      ],
+      "r2_buckets": [
+        {
+          "binding": "ASSETS_BUCKET",
+          "bucket_name": "autoblog-assets"
+        }
+      ],
+      "queues": {
+        "producers": [
+          {
+            "binding": "CONTENT_QUEUE",
+            "queue": "content-queue"
+          },
+          {
+            "binding": "IMAGE_QUEUE",
+            "queue": "image-queue"
+          }
+        ],
+        "consumers": [
+          {
+            "queue": "content-queue"
+          },
+          {
+            "queue": "image-queue"
+          }
+        ]
       }
     }
   }
