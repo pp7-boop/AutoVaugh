@@ -9,6 +9,7 @@ cd "$ROOT"
 
 WRANGLER_BIN=${WRANGLER:-npx wrangler}
 PAGES_PROJECT=${PAGES_PROJECT:-autoblog-pages}
+export WRANGLER_LOG="${WRANGLER_LOG:-./.wrangler.log}"
 
 echo "Installing dependencies..."
 npm install
@@ -20,6 +21,7 @@ echo "Seeding D1 schema..."
 $WRANGLER_BIN d1 execute autoblog_db --remote --file src/db/schema.sql
 
 echo "Deploying Workers + queues..."
+rm -rf .wrangler/deploy
 $WRANGLER_BIN deploy --minify --env production
 
 echo "Deploying Pages project $PAGES_PROJECT..."
