@@ -46,7 +46,7 @@ echo "Building Astro site..."
 npm run build
 
 echo "Seeding D1 schema..."
-$WRANGLER_BIN --config "$TMP_WRANGLER" d1 execute autoblog-db --file src/db/schema.sql
+$WRANGLER_BIN --config "$TMP_WRANGLER" d1 execute autoblog_db --file src/db/schema.sql
 
 echo "Deploying Workers + queues..."
 $WRANGLER_BIN --config "$TMP_WRANGLER" deploy --minify

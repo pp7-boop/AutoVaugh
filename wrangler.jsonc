@@ -12,18 +12,18 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "autoblog-db",
-      "database_id": "REPLACE_WITH_D1_DATABASE_ID"
+      "database_name": "autoblog_db",
+      "database_id": "00d4816c-0146-45dc-a822-c227b272afe7"
     }
   ],
   "kv_namespaces": [
     {
       "binding": "CACHE",
-      "id": "REPLACE_WITH_KV_NAMESPACE_ID"
+      "id": "37784a09e6e04fec8dc91ca3294e6bae"
     },
     {
       "binding": "CONFIG_KV",
-      "id": "REPLACE_WITH_CONFIG_KV_NAMESPACE_ID"
+      "id": "37784a09e6e04fec8dc91ca3294e6bae"
     }
   ],
   "r2_buckets": [

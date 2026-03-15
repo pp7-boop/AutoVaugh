@@ -27,3 +27,9 @@ wrangler.jsonc (bindings/routes)
 astro.config.mjs (Pages adapter)
 src/db/schema.sql (seeded sites)
 src/config/sites.ts (market/domain mapping)
+
+
+export CLOUDFLARE_ACCOUNT_ID=22f8a8390779ed8d3951cab297d2b32a
+export AUTOBLOG_D1_ID=00d4816c-0146-45dc-a822-c227b272afe7
+export AUTOBLOG_KV_ID=37784a09e6e04fec8dc91ca3294e6bae
+export AUTOBLOG_CONFIG_KV_ID=57608d82b1234c2c8bf7a67e7d303c65
