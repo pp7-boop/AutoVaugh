@@ -1,0 +1,35 @@
+---
+import Base from "../layouts/Base.astro";
+import { sites, markets } from "../config/sites";
+const featured = sites;
+---
+<Base title="Vaughn Sterling Collective" description="Elite male companion and luxury tour network">
+  <h1>Vaughn Sterling Collective</h1>
+  <p>Discreet, luxury male companionship and hosted experiences across affluent districts.</p>
+
+  <section>
+    <h2>Brands</h2>
+    <div>
+      {featured.map(site => (
+        <article>
+          <h3>{site.brand}</h3>
+          <p>{site.niche}</p>
+          <p>Primary markets: {site.primaryMarketCodes.join(', ')}</p>
+          <a href={`https://${site.domain}`}>{site.domain}</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section>
+    <h2>Affluent Markets</h2>
+    <ul>
+      {markets.map(m => <li>{m.city}, {m.country} — {m.suburbs.join(', ')}</li>)}
+    </ul>
+  </section>
+
+  <section>
+    <h2>Start</h2>
+    <a href="/install">Run installer</a>
+  </section>
+</Base>

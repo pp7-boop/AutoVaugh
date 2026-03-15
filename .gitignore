@@ -1,0 +1,46 @@
+# node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# build output
+dist/
+out/
+.build/
+.public/
+.astro/
+
+# wrangler local state / artifacts
+.wrangler/
+wrangler-state/
+*.warnger-*    # if any special names
+
+# local DB / caches
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.db
+/cache/
+
+# environment and secrets
+.env
+.env.*
+*.local
+.vscode/
+.idea/
+.DS_Store
+
+# lockfile if using another package manager
+package-lock.json
+yarn.lock
+.pnpm-lock.yaml
+
+# OS temp
+Thumbs.db
+ehthumbs.db
+*.swp
+.idea/
+.vscode/
+.cache/

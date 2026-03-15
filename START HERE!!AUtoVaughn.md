@@ -1,0 +1,59 @@
+
+
+
+#I ADDED A ONE-SHOT DEPLOY SCRIPT.
+
+New file: bin/deploy.sh (bash, set -euo pipefail). It checks required env vars (CF_ACCOUNT_ID, AUTOBLOG_D1_ID, AUTOBLOG_KV_ID, AUTOBLOG_CONFIG_KV_ID), runs npm install, builds Astro, seeds D1 schema, deploys the Worker + queues, deploys the Pages project (PAGES_PROJECT env defaults to autoblog-pages), and optionally kicks off a starter content job. Final instructions are echoed for DNS and secrets.
+
+
+
+
+
+#RUN IT FROM THE REPO ROOT:
+
+chmod +x bin/deploy.sh
+CF_ACCOUNT_ID=... AUTOBLOG_D1_ID=... AUTOBLOG_KV_ID=... AUTOBLOG_CONFIG_KV_ID=... ./bin/deploy.sh
+//** Remember to set secrets separately (wrangler secret put GEMINI_KEY, UNSPLASH_KEY, CF_AI_TOKEN, ADMIN_PASSWORD) before first live run.
+
+
+CF_ACCOUNT_ID=
+
+AUTOBLOG_D1_ID="d1_databases": [{
+    "binding": "DB",
+    "database_name": "autoblog_db",
+    "database_id": "00d4816c-0146-45dc-a822-c227b272afe7"
+ }]
+
+AUTOBLOG_KV_ID=37784a09e6e04fec8dc91ca3294e6bae
+
+AUTOBLOG_CONFIG_KV_ID=
+00d4816c-0146-45dc-a822-c227b272afe7
+
+#Files to check:
+
+wrangler.jsonc (bindings/routes)
+astro.config.mjs (Pages adapter)
+src/db/schema.sql (seeded sites)
+src/config/sites.ts (market/domain mapping)
+
+
+export CLOUDFLARE_ACCOUNT_ID=22f8a8390779ed8d3951cab297d2b32a
+AUTOBLOG_D1_ID=00d4816c-0146-45dc-a822-c227b272afe7
+AUTOBLOG_KV_ID=37784a09e6e04fec8dc91ca3294e6bae
+AUTOBLOG_CONFIG_KV_ID=57608d82b1234c2c8bf7a67e7d303c65
+
+
+
+
+CLOUDFLARE_ACCOSUNT_ID=22f8a8390779ed8d3951cab297d2b32a
+
+GEMINI_KEY=AIzaSyAmhFOqXvG0n-io8VodpLHkXixIIMOpszM
+UNSPLASH_KEY=1BN78irUSVRElhtreKM8z4yKskyDIDsUwduv3Cwdpz4
+CF_AI_TOKEN=09fBWH7AtX7uWa8zT61vaudNMhzR3xFzlojsbj9K
+ADMIN_PASSWORD=ed8d3951cab297d2b32azaSyAmhFOqXvG0n-io8VodpAtX7uWa
+
+"kv_namespaces": [{
+                    "binding": "KV_BINDING",
+                    "id": "57608d82b1234c2c8bf7a67e7d303c65"
+                 }]
+

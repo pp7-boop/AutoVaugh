@@ -1,0 +1,14 @@
+---
+import Base from "../layouts/Base.astro";
+import ArticlePage from "../components/ArticlePage";
+const { slug } = Astro.params;
+export const prerender = false;
+const res = await fetch(`/api/article/${slug}`);
+if (!res.ok) {
+  throw Astro.redirect('/');
+}
+const article = await res.json();
+---
+<Base title={article.title} description={article.meta_description} canonical={`/${slug}`}>
+  <ArticlePage article={article} />
+</Base>

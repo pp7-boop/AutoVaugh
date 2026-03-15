@@ -1,0 +1,8 @@
+---
+import Base from "../layouts/Base.astro";
+import Installer from "../components/Installer";
+export const prerender = false;
+---
+<Base title="Installer" description="One-click deploy">
+  <Installer client:load />
+</Base>

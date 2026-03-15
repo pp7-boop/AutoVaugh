@@ -1,0 +1,8 @@
+---
+import Base from "../layouts/Base.astro";
+import AdminApp from "../components/admin/AdminApp";
+export const prerender = false;
+---
+<Base title="Admin" description="Operations dashboard">
+  <AdminApp client:load />
+</Base>

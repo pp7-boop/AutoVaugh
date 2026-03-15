@@ -1,0 +1,31 @@
+{
+  "name": "autoblog",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --local",
+    "build": "astro build && tsc --noEmit",
+    "lint": "eslint src",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "13.1.1",
+    "@astrojs/react": "5.0.0",
+    "@cloudflare/kv-asset-handler": "^0.3.0",
+    "astro": "6.0.4",
+    "itty-router": "^4.0.23",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241230.0",
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "eslint": "^8.57.0",
+    "typescript": "^5.4.5",
+    "vitest": "4.1.0",
+    "wrangler": "4.73.0"
+  }
+}
