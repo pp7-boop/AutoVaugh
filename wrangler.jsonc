@@ -7,7 +7,8 @@
     "enabled": true
   },
   "vars": {
-    "ENVIRONMENT": "dev"
+    "ENVIRONMENT": "dev",
+    "ACCOUNT_ID": "22f8a8390779ed8d3951cab297d2b32a"
   },
   "d1_databases": [
     {
@@ -23,6 +24,10 @@
     },
     {
       "binding": "SESSION",
+      "id": "37784a09e6e04fec8dc91ca3294e6bae"
+    },
+    {
+      "binding": "CONFIG_KV",
       "id": "37784a09e6e04fec8dc91ca3294e6bae"
     }
   ],
@@ -61,11 +66,16 @@
     "command": "npm run build",
     "cwd": "."
   },
-  "routes": [],
+  "routes": [
+    { "pattern": "api.vaughnsterling.com/*", "custom_domain": true },
+    { "pattern": "api.vaughnsterlingtours.com/*", "custom_domain": true },
+    { "pattern": "api.swankyboyz.com/*", "custom_domain": true }
+  ],
   "env": {
     "production": {
       "vars": {
-        "ENVIRONMENT": "prod"
+        "ENVIRONMENT": "prod",
+        "ACCOUNT_ID": "22f8a8390779ed8d3951cab297d2b32a"
       },
       "d1_databases": [
         {
@@ -81,6 +91,10 @@
         },
         {
           "binding": "SESSION",
+          "id": "37784a09e6e04fec8dc91ca3294e6bae"
+        },
+        {
+          "binding": "CONFIG_KV",
           "id": "37784a09e6e04fec8dc91ca3294e6bae"
         }
       ],
