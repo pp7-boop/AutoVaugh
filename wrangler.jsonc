@@ -64,9 +64,9 @@
   },
   "build": {
     "command": "npm run build",
-    "cwd": ".",
-    "pages_build_output_dir": "dist"
+    "cwd": "."
   },
+  "pages_build_output_dir": "dist",
   "routes": [
     { "pattern": "api.vaughnsterling.com", "custom_domain": true },
     { "pattern": "api.vaughnsterlingtours.com", "custom_domain": true },
