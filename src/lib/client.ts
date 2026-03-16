@@ -1,6 +1,8 @@
+const API_BASE = import.meta.env.PUBLIC_API_BASE || 'https://api.vaughnsterling.com';
+
 export const installApi = {
   async post(path: string, body: any, opts: { onMessage?:(line:string)=>void } = {}) {
-    const res = await fetch(`/api${path}`, {
+    const res = await fetch(`${API_BASE}${path}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body)
@@ -16,11 +18,11 @@ export const installApi = {
 
 export const api = {
   async get(path: string) {
-    const res = await fetch(`/api${path}`);
+    const res = await fetch(`${API_BASE}${path}`);
     return res.json();
   },
   async post(path: string, body: any) {
-    const res = await fetch(`/api${path}`, {
+    const res = await fetch(`${API_BASE}${path}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body)

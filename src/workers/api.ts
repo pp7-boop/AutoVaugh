@@ -5,6 +5,13 @@ import { authAdmin } from "../lib/auth";
 import { Env } from "../types";
 
 const router = Router();
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization"
+};
+
+router.options("*", () => new Response(null, { headers: corsHeaders }));
 
 router.post("/analyze-domain", async (req, env: Env) => {
   const body = (await req.json?.()) ?? {};
@@ -40,7 +47,7 @@ router.all("/", (req) => {
   }
   return new Response(JSON.stringify({ status: "ok", message: "autoblog root" }), {
     status: 200,
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...corsHeaders },
   });
 });
 
@@ -56,22 +63,22 @@ router.all("/health", async (req, env: Env) => {
     console.error("Health check error", err);
     return new Response(JSON.stringify({ status: "unavailable", error: String(err) }), {
       status: 503,
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", ...corsHeaders },
     });
   }
 
   return new Response(JSON.stringify({ status: "ok" }), {
     status: 200,
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...corsHeaders },
   });
 });
 
 router.head("/health", () => new Response(null, { status: 200 }));
 
-router.all("*", () => new Response(JSON.stringify({ status: "not_found", error: "route_not_found" }), { status: 404, headers: { "Content-Type": "application/json" } }));
+router.all("*", () => new Response(JSON.stringify({ status: "not_found", error: "route_not_found" }), { status: 404, headers: { "Content-Type": "application/json", ...corsHeaders } }));
 
 export default { fetch: router.handle };
 
 function json(data: any) {
-  return new Response(JSON.stringify(data), { headers: { "Content-Type": "application/json" } });
+  return new Response(JSON.stringify(data), { headers: { "Content-Type": "application/json", ...corsHeaders } });
 }
