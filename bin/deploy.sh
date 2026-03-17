@@ -18,7 +18,7 @@ echo "Building Astro site..."
 npm run build
 
 echo "Seeding D1 schema..."
-$WRANGLER_BIN d1 execute autoblog_db --remote --file src/db/schema.sql
+$WRANGLER_BIN d1 execute autoblog_db --remote --file src/db/schema.sql --yes
 
 echo "Deploying Workers + queues..."
 rm -rf .wrangler/deploy
@@ -26,14 +26,14 @@ $WRANGLER_BIN deploy --minify --env production
 
 echo "Deploying Pages projects..."
 # vaughnsterling.com
-PUBLIC_API_BASE=https://api.vaughnsterling.com \
-  $WRANGLER_BIN pages deploy dist --project-name vaughnsterling-pages --branch main
+PUBLIC_API_BASE=https://api.vaughnsterling.com npm run build
+$WRANGLER_BIN pages deploy dist --project-name vaughnsterling-pages --branch main
 # vaughnsterlingtours.com
-PUBLIC_API_BASE=https://api.vaughnsterlingtours.com \
-  $WRANGLER_BIN pages deploy dist --project-name vaughnsterlingtours-pages --branch main
+PUBLIC_API_BASE=https://api.vaughnsterlingtours.com npm run build
+$WRANGLER_BIN pages deploy dist --project-name vaughnsterlingtours-pages --branch main
 # swankyboyz.com
-PUBLIC_API_BASE=https://api.swankyboyz.com \
-  $WRANGLER_BIN pages deploy dist --project-name swankyboyz-pages --branch main
+PUBLIC_API_BASE=https://api.swankyboyz.com npm run build
+$WRANGLER_BIN pages deploy dist --project-name swankyboyz-pages --branch main
 
 echo "(Optional) Kick off initial content jobs..."
 if $WRANGLER_BIN queues list 2>/dev/null | grep -q "content-queue-prod"; then

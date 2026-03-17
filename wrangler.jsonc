@@ -48,26 +48,26 @@
 			"remote": true
 		}
 	],
-	"queues": {
-		"producers": [
-			{
-				"binding": "CONTENT_QUEUE",
-				"queue": "content-queue-prod"
-			},
-			{
-				"binding": "IMAGE_QUEUE",
-				"queue": "image-queue-prod"
-			}
-		],
-		"consumers": [
-			{
-				"queue": "content-queue-prod"
-			},
-			{
-				"queue": "image-queue-prod"
-			}
-		]
-	},
+  "queues": {
+    "producers": [
+      {
+        "binding": "CONTENT_QUEUE",
+        "queue": "content-queue-prod"
+      },
+      {
+        "binding": "IMAGE_QUEUE",
+        "queue": "image-queue-prod"
+      }
+    ],
+    "consumers": [
+      {
+        "queue": "content-queue-prod"
+      },
+      {
+        "queue": "image-queue-prod"
+      }
+    ]
+  },
 	"triggers": {
 		"crons": [
 			"0 */6 * * *"
@@ -130,26 +130,26 @@
 					"index_name": "autoblog-embeddings"
 				}
 			],
-			"queues": {
-				"producers": [
-					{
-						"binding": "CONTENT_QUEUE",
-						"queue": "content-queue"
-					},
-					{
-						"binding": "IMAGE_QUEUE",
-						"queue": "image-queue"
-					}
-				],
-				"consumers": [
-					{
-						"queue": "content-queue"
-					},
-					{
-						"queue": "image-queue"
-					}
-				]
-			}
-		}
-	}
+      "queues": {
+        "producers": [
+          {
+            "binding": "CONTENT_QUEUE",
+            "queue": "content-queue-prod"
+          },
+          {
+            "binding": "IMAGE_QUEUE",
+            "queue": "image-queue-prod"
+          }
+        ],
+        "consumers": [
+          {
+            "queue": "content-queue-prod"
+          },
+          {
+            "queue": "image-queue-prod"
+          }
+        ]
+      }
+    }
+  }
 }
