@@ -28,7 +28,7 @@
 		},
 		{
 			"binding": "CONFIG_KV",
-			"id": "37784a09e6e04fec8dc91ca3294e6bae"
+			"id": "57608d82b1234c2c8bf7a67e7d303c65"
 		}
 	],
 	"r2_buckets": [
@@ -115,7 +115,7 @@
 				},
 				{
 					"binding": "CONFIG_KV",
-					"id": "37784a09e6e04fec8dc91ca3294e6bae"
+					"id": "57608d82b1234c2c8bf7a67e7d303c65"
 				}
 			],
 			"r2_buckets": [
