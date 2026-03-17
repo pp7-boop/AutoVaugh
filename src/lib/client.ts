@@ -1,4 +1,7 @@
-const API_BASE = import.meta.env.PUBLIC_API_BASE || 'https://api.vaughnsterling.com';
+const defaultApi = 'https://api.vaughnsterling.com';
+// On preview (pages.dev) or local, fall back to workers.dev if provided
+const previewApi = import.meta.env.PUBLIC_PREVIEW_API_BASE || import.meta.env.PUBLIC_API_BASE || defaultApi;
+const API_BASE = import.meta.env.PUBLIC_API_BASE || (import.meta.env.DEV ? 'http://127.0.0.1:8787' : previewApi);
 
 export const installApi = {
   async post(path: string, body: any, opts: { onMessage?:(line:string)=>void } = {}) {
