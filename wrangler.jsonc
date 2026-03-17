@@ -1,141 +1,155 @@
 {
-  "name": "autoblog",
-  "main": "src/workers/worker.ts",
-  "compatibility_date": "2024-11-01",
-  "account_id": "22f8a8390779ed8d3951cab297d2b32a",
-  "observability": {
-    "enabled": true
-  },
-  "vars": {
-    "ENVIRONMENT": "dev",
-    "ACCOUNT_ID": "22f8a8390779ed8d3951cab297d2b32a"
-  },
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "autoblog_db",
-      "database_id": "00d4816c-0146-45dc-a822-c227b272afe7"
-    }
-  ],
-  "kv_namespaces": [
-    {
-      "binding": "CACHE",
-      "id": "37784a09e6e04fec8dc91ca3294e6bae"
-    },
-    {
-      "binding": "SESSION",
-      "id": "37784a09e6e04fec8dc91ca3294e6bae"
-    },
-    {
-      "binding": "CONFIG_KV",
-      "id": "37784a09e6e04fec8dc91ca3294e6bae"
-    }
-  ],
-  "r2_buckets": [
-    {
-      "binding": "ASSETS_BUCKET",
-      "bucket_name": "autoblog-assets"
-    }
-  ],
-  "vectorize": [
-    {
-      "binding": "VEC",
-      "index_name": "autoblog-embeddings"
-    }
-  ],
-  "queues": {
-    "producers": [
-      {
-        "binding": "CONTENT_QUEUE",
-        "queue": "content-queue-prod"
-      },
-      {
-        "binding": "IMAGE_QUEUE",
-        "queue": "image-queue-prod"
-      }
-    ],
-    "consumers": [
-      {
-        "queue": "content-queue-prod"
-      },
-      {
-        "queue": "image-queue-prod"
-      }
-    ]
-  },
-  "triggers": {
-    "crons": [
-      "0 */6 * * *"
-    ]
-  },
-  "build": {
-    "command": "npm run build",
-    "cwd": "."
-  },
-  "routes": [
-    { "pattern": "api.vaughnsterling.com", "custom_domain": true },
-    { "pattern": "api.vaughnsterlingtours.com", "custom_domain": true },
-    { "pattern": "api.swankyboyz.com", "custom_domain": true }
-  ],
-  "env": {
-    "production": {
-      "vars": {
-        "ENVIRONMENT": "prod",
-        "ACCOUNT_ID": "22f8a8390779ed8d3951cab297d2b32a"
-      },
-      "d1_databases": [
-        {
-          "binding": "DB",
-          "database_name": "autoblog_db",
-          "database_id": "00d4816c-0146-45dc-a822-c227b272afe7"
-        }
-      ],
-      "kv_namespaces": [
-        {
-          "binding": "CACHE",
-          "id": "37784a09e6e04fec8dc91ca3294e6bae"
-        },
-        {
-          "binding": "SESSION",
-          "id": "37784a09e6e04fec8dc91ca3294e6bae"
-        },
-        {
-          "binding": "CONFIG_KV",
-          "id": "37784a09e6e04fec8dc91ca3294e6bae"
-        }
-      ],
-      "r2_buckets": [
-        {
-          "binding": "ASSETS_BUCKET",
-          "bucket_name": "autoblog-assets"
-        }
-      ],
-      "vectorize": [
-        {
-          "binding": "VEC",
-          "index_name": "autoblog-embeddings"
-        }
-      ],
-      "queues": {
-        "producers": [
-          {
-            "binding": "CONTENT_QUEUE",
-            "queue": "content-queue"
-          },
-          {
-            "binding": "IMAGE_QUEUE",
-            "queue": "image-queue"
-          }
-        ],
-        "consumers": [
-          {
-            "queue": "content-queue"
-          },
-          {
-            "queue": "image-queue"
-          }
-        ]
-      }
-    }
-  }
+	"name": "autoblog",
+	"main": "src/workers/worker.ts",
+	"compatibility_date": "2024-11-01",
+	"account_id": "22f8a8390779ed8d3951cab297d2b32a",
+	"observability": {
+		"enabled": true
+	},
+	"vars": {
+		"ENVIRONMENT": "dev",
+		"ACCOUNT_ID": "22f8a8390779ed8d3951cab297d2b32a"
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "autoblog_db",
+			"database_id": "00d4816c-0146-45dc-a822-c227b272afe7"
+		}
+	],
+	"kv_namespaces": [
+		{
+			"binding": "CACHE",
+			"id": "37784a09e6e04fec8dc91ca3294e6bae"
+		},
+		{
+			"binding": "SESSION",
+			"id": "37784a09e6e04fec8dc91ca3294e6bae"
+		},
+		{
+			"binding": "CONFIG_KV",
+			"id": "37784a09e6e04fec8dc91ca3294e6bae"
+		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "ASSETS_BUCKET",
+			"bucket_name": "autoblog-assets"
+		}
+	],
+	"vectorize": [
+		{
+			"binding": "VEC",
+			"index_name": "autoblog-embeddings"
+		},
+		{
+			"binding": "autoblog_embeddings",
+			"index_name": "autoblog-embeddings",
+			"remote": true
+		}
+	],
+	"queues": {
+		"producers": [
+			{
+				"binding": "CONTENT_QUEUE",
+				"queue": "content-queue-prod"
+			},
+			{
+				"binding": "IMAGE_QUEUE",
+				"queue": "image-queue-prod"
+			}
+		],
+		"consumers": [
+			{
+				"queue": "content-queue-prod"
+			},
+			{
+				"queue": "image-queue-prod"
+			}
+		]
+	},
+	"triggers": {
+		"crons": [
+			"0 */6 * * *"
+		]
+	},
+	"build": {
+		"command": "npm run build",
+		"cwd": "."
+	},
+	"routes": [
+		{
+			"pattern": "api.vaughnsterling.com",
+			"custom_domain": true
+		},
+		{
+			"pattern": "api.vaughnsterlingtours.com",
+			"custom_domain": true
+		},
+		{
+			"pattern": "api.swankyboyz.com",
+			"custom_domain": true
+		}
+	],
+	"env": {
+		"production": {
+			"vars": {
+				"ENVIRONMENT": "prod",
+				"ACCOUNT_ID": "22f8a8390779ed8d3951cab297d2b32a"
+			},
+			"d1_databases": [
+				{
+					"binding": "DB",
+					"database_name": "autoblog_db",
+					"database_id": "00d4816c-0146-45dc-a822-c227b272afe7"
+				}
+			],
+			"kv_namespaces": [
+				{
+					"binding": "CACHE",
+					"id": "37784a09e6e04fec8dc91ca3294e6bae"
+				},
+				{
+					"binding": "SESSION",
+					"id": "37784a09e6e04fec8dc91ca3294e6bae"
+				},
+				{
+					"binding": "CONFIG_KV",
+					"id": "37784a09e6e04fec8dc91ca3294e6bae"
+				}
+			],
+			"r2_buckets": [
+				{
+					"binding": "ASSETS_BUCKET",
+					"bucket_name": "autoblog-assets"
+				}
+			],
+			"vectorize": [
+				{
+					"binding": "VEC",
+					"index_name": "autoblog-embeddings"
+				}
+			],
+			"queues": {
+				"producers": [
+					{
+						"binding": "CONTENT_QUEUE",
+						"queue": "content-queue"
+					},
+					{
+						"binding": "IMAGE_QUEUE",
+						"queue": "image-queue"
+					}
+				],
+				"consumers": [
+					{
+						"queue": "content-queue"
+					},
+					{
+						"queue": "image-queue"
+					}
+				]
+			}
+		}
+	}
 }

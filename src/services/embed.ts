@@ -21,14 +21,10 @@ export async function embedAndStore(env: Env, article: { slug: string; title: st
   }]);
 }
 
-export async function relatedSlugs(env: Env, slug: string, siteId?: number, topK = 5) {
-  const result = await env.VEC.query({
-    topK,
-    id: slug,
-    filter: siteId ? { site_id: siteId } : undefined
-  });
+export async function relatedSlugs(env: Env, slug: string, siteId?: number, topK = 5): Promise<string[]> {
+  const query = siteId ? { topK, id: slug, filter: { site_id: siteId } } : { topK, id: slug };
+  const result = await env.VEC.query(query as any);
   return (result.matches || [])
     .map(m => m.metadata?.slug as string | undefined)
-    .filter(Boolean)
-    .filter(s => s !== slug);
+    .filter((s): s is string => !!s && s !== slug);
 }
