@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-export default function ArticlePage({ article }: { article: any }) {
+type Related = { slug: string; title: string };
+
+export default function ArticlePage({ article, related = [] as Related[] }: { article: any; related?: Related[] }) {
   const [progress, setProgress] = useState(0);
   useEffect(() => {
     const h = () => setProgress(window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100);
@@ -16,9 +18,10 @@ export default function ArticlePage({ article }: { article: any }) {
       <div className="toc" dangerouslySetInnerHTML={{ __html: article.toc_html || "" }} />
       <section dangerouslySetInnerHTML={{ __html: article.html }} />
       <aside className="cta">Book a discreet, verified experience.</aside>
-      {article.related?.length ? (
+      {related.length ? (
         <section className="related">
-          {article.related.map((r: any) => <a key={r.slug} href={`/${r.slug}`}>{r.title}</a>)}
+          <h3>Related</h3>
+          {related.map((r: any) => <a key={r.slug} href={`/${r.slug}`}>{r.title}</a>)}
         </section>
       ) : null}
     </article>

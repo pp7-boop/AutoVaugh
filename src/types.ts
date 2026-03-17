@@ -11,6 +11,7 @@ export type Env = {
   ACCOUNT_ID: string;
   ADMIN_PASSWORD: string;
   ENVIRONMENT: 'dev' | 'prod';
+  VEC: VectorizeIndex;
 };
 
 export type Brief = {

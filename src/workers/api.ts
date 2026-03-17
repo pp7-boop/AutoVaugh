@@ -1,8 +1,9 @@
 import { Router } from "itty-router";
 import { analyzeDomain, validateKeys, provision } from "../lib/installer";
-import { getArticle, listArticles, createManualJob } from "../lib/content";
+import { getArticle, listArticles, createManualJob, getArticlesBySlugs } from "../lib/content";
 import { authAdmin } from "../lib/auth";
 import { Env } from "../types";
+import { relatedSlugs } from "../services/embed";
 
 const router = Router();
 const corsHeaders = {
@@ -74,6 +75,17 @@ router.all("/health", async (req, env: Env) => {
 });
 
 router.head("/health", () => new Response(null, { status: 200 }));
+
+router.get("/related/:slug", async (req, env: Env) => {
+  try {
+    const article = await getArticle(env, req.params!.slug);
+    const slugs = await relatedSlugs(env, article.slug, article.site_id);
+    const related = await getArticlesBySlugs(env, slugs);
+    return json({ related });
+  } catch {
+    return new Response("Not found", { status: 404 });
+  }
+});
 
 router.all("*", () => new Response(JSON.stringify({ status: "not_found", error: "route_not_found" }), { status: 404, headers: { "Content-Type": "application/json", ...corsHeaders } }));
 

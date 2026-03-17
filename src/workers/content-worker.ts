@@ -3,6 +3,7 @@ import { generateArticle } from "../services/gemini";
 import { seoCheck } from "../services/seo";
 import { insertArticle } from "../lib/content";
 import { markets } from "../config/sites";
+import { embedAndStore } from "../services/embed";
 
 export default {
   async queue(batch: MessageBatch<ContentJob>, env: Env) {
@@ -27,7 +28,8 @@ export default {
         if (!article) { msg.retry(); continue; }
         const ok = await seoCheck(article as any);
         if (!ok.ok) { msg.retry(); continue; }
-        await insertArticle(env, article as any);
+        const saved = await insertArticle(env, article as any);
+        await embedAndStore(env, saved);
         msg.ack();
       } catch (err) { msg.retry(); }
     }

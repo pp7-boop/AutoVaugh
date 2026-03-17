@@ -37,6 +37,12 @@
       "bucket_name": "autoblog-assets"
     }
   ],
+  "vectorize": [
+    {
+      "binding": "VEC",
+      "index_name": "autoblog-embeddings"
+    }
+  ],
   "queues": {
     "producers": [
       {
@@ -102,6 +108,12 @@
         {
           "binding": "ASSETS_BUCKET",
           "bucket_name": "autoblog-assets"
+        }
+      ],
+      "vectorize": [
+        {
+          "binding": "VEC",
+          "index_name": "autoblog-embeddings"
         }
       ],
       "queues": {
