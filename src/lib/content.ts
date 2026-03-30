@@ -70,3 +70,11 @@ function chooseSiteId(market?: string) {
   if (lower.includes("tokyo") || lower.includes("london") || lower.includes("new york") || lower.includes("los angeles")) return 3;
   return 1;
 }
+
+export async function getArticlesBySlugs(env: Env, slugs: string[]) {
+  if (!slugs.length) return [];
+  const placeholders = slugs.map(() => "?").join(",");
+  const stmt = env.DB.prepare(`SELECT * FROM articles WHERE slug IN (${placeholders})`);
+  const rows = await stmt.bind(...slugs).all<Article>();
+  return rows.results?.map(hydrateArticle) ?? [];
+}

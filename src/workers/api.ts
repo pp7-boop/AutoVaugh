@@ -1,13 +1,18 @@
 import { Router } from "itty-router";
-import { rateLimit } from "../lib/rate-limit";
 import { analyzeDomain, validateKeys, provision } from "../lib/installer";
-import { getArticle, listArticles, createManualJob } from "../lib/content";
+import { getArticle, listArticles, createManualJob, getArticlesBySlugs } from "../lib/content";
 import { authAdmin } from "../lib/auth";
 import { Env } from "../types";
+import { relatedSlugs } from "../services/embed";
 
 const router = Router();
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization"
+};
 
-router.all("*", (req, env: Env, ctx) => rateLimit(req, env) ?? undefined);
+router.options("*", () => new Response(null, { headers: corsHeaders }));
 
 router.post("/analyze-domain", async (req, env: Env) => {
   const body = (await req.json?.()) ?? {};
@@ -37,10 +42,55 @@ router.post("/admin/job", authAdmin, async (req, env: Env) => {
   return json(await createManualJob(env, body as any));
 });
 
-router.get("/health", () => new Response("ok"));
+router.all("/", (req) => {
+  if (req.method === "HEAD") {
+    return new Response(null, { status: 200 });
+  }
+  return new Response(JSON.stringify({ status: "ok", message: "autoblog root" }), {
+    status: 200,
+    headers: { "Content-Type": "application/json", ...corsHeaders },
+  });
+});
+
+router.all("/favicon.ico", (req) => new Response(null, { status: 204 }));
+
+router.all("/health", async (req, env: Env) => {
+  if (req.method === "HEAD") {
+    return new Response(null, { status: 200 });
+  }
+  try {
+    await env.CACHE.get("health-check", { type: "text" });
+  } catch (err) {
+    console.error("Health check error", err);
+    return new Response(JSON.stringify({ status: "unavailable", error: String(err) }), {
+      status: 503,
+      headers: { "Content-Type": "application/json", ...corsHeaders },
+    });
+  }
+
+  return new Response(JSON.stringify({ status: "ok" }), {
+    status: 200,
+    headers: { "Content-Type": "application/json", ...corsHeaders },
+  });
+});
+
+router.head("/health", () => new Response(null, { status: 200 }));
+
+router.get("/related/:slug", async (req, env: Env) => {
+  try {
+    const article = await getArticle(env, req.params!.slug);
+    const slugs = await relatedSlugs(env, article.slug, article.site_id);
+    const related = await getArticlesBySlugs(env, slugs);
+    return json({ related });
+  } catch {
+    return new Response("Not found", { status: 404 });
+  }
+});
+
+router.all("*", () => new Response(JSON.stringify({ status: "not_found", error: "route_not_found" }), { status: 404, headers: { "Content-Type": "application/json", ...corsHeaders } }));
 
 export default { fetch: router.handle };
 
 function json(data: any) {
-  return new Response(JSON.stringify(data), { headers: { "Content-Type": "application/json" } });
+  return new Response(JSON.stringify(data), { headers: { "Content-Type": "application/json", ...corsHeaders } });
 }

@@ -1,0 +1,5 @@
+{
+  // Pages-only config to silence "missing pages_build_output_dir" warning.
+  "account_id": "22f8a8390779ed8d3951cab297d2b32a",
+  "pages_build_output_dir": "dist"
+}
